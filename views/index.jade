@@ -1,5 +1,7 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  script(src="javascripts/initWeb3.js")
+  div(id='main')
+    h1= title
+    p Welcome to #{title}
