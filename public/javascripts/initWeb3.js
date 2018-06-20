@@ -7,14 +7,11 @@ window.addEventListener('load', function () {
 	} else {
 		console.log("noMetaMask!");
 		document.getElementById('main').innerHTML =
-			"<div class=\"Hero\">" +
-			"<div class=\"Container Container--sm Container--center\">" +
-			"<h2 class=\"Hero-h2\">喵呜，似乎您没有打开并登陆您的MetaMask</h2>" +
-			"<p class=\"Hero-description\">只需打开MetaMask登陆并连接到我们的<strong>私有链网络</strong>即可。</p>" +
-			"<img class=\"Hero-image\" src=\"/images/main-network.png\" alt=\"主要以太坊网络\">" +
-			"</div>" +
-			"</div>" +
-			"</main>";
+			"<div class=\"row\"><div class=\"text-center\">" +
+			"<h2 class=\"h2 text-center\">喵呜，似乎您没有打开并登陆您的MetaMask</h2>" +
+			"<p class=\"text-center\">只需打开MetaMask登陆并连接到我们的<strong>私有链网络</strong>即可。</p>" +
+			"<img class=\"img-rounded\" src=\"/images/main-network.png\" alt=\"私有链网络\">" +
+			"</div></div>";
 	}
 	web3.version.getNetwork(function (err, netId) {
 		if (netId == 519)
@@ -22,14 +19,11 @@ window.addEventListener('load', function () {
 		else {
 			console.log("This is not private network.");
 			document.getElementById('main').innerHTML =
-				"<div class=\"Hero\">" +
-				"<div class=\"Container Container--sm Container--center\">" +
-				"<h2 class=\"Hero-h2\">喵呜，您进入了错误的网络</h2>" +
-				"<p class=\"Hero-description\">只需打开MetaMask并连接到我们的<strong>私有链网络</strong>即可。</p>" +
-				"<img class=\"Hero-image\" src=\"/images/main-network.png\" alt=\"主要以太坊网络\">" +
-				"</div>" +
-				"</div>" +
-				"</main>";
+				"<div class=\"row\"><div class=\"text-center\">" +
+				"<h2 class=\"h2 text-center\">喵呜，您进入了错误的网络</h2>" +
+				"<p>只需打开MetaMask并连接到我们的<strong>私有链网络</strong>即可。</p>" +
+				"<img class=\"img-rounded\" src=\"/images/main-network.png\" alt=\"私有链网络\">" +
+				"</div></div>";
 		}
 	});
 	setInterval(function () {
