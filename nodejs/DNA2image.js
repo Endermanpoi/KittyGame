@@ -5,9 +5,9 @@ var analysis = require('./DNAanalysis');
 var eth = require('./EthBlockchain')
 
 async function findImage(catID, callback) {
-	await fs.exists('./public/images/' + catID + '.png', function (exists, temp) {
+	await fs.exists('./public/images/cat/' + catID + '.png', function (exists, temp) {
 		if (exists)
-			callback('images/' + catID + '.png');
+			callback('images/cat/' + catID + '.png');
 		else {
 			build(catID, callback);
 		}
@@ -258,12 +258,12 @@ function build(catID, callback) {
 		doneBuild: function (callback) {
 			fs.unlink("./cat/tmp.png",
 				function () { });
-			fs.rename('./cat/temp.png', './public/images/' + catID + '.png',
+			fs.rename('./cat/temp.png', './public/images/cat/' + catID + '.png',
 				function () { });
 			callback();
 		}
 	}, function () {
-		callback('images/' + catID + '.png');
+		callback('images/cat/' + catID + '.png');
 	});
 }
 
