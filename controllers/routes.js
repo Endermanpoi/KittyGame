@@ -6,10 +6,14 @@ var router = express.Router();
 router.get('/', function (req, res, next) {
   var filesList = fs.readdirSync('./public/images/cat/');
   var catID = filesList.length;
-  res.render('index', { title: 'KittyGame', cat: catID });
+  res.render('index', { title: '喵喵喵', cat: catID });
 });
 
-router.get('/user', function(req, res, next) {
+router.get('/about', function (req, res, next) {
+  res.render('about', { title: '关于' });
+});
+
+router.get('/user', function (req, res, next) {
   res.send('respond with a resource');
 });
 
