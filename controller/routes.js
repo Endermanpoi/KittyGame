@@ -9,4 +9,8 @@ router.get('/', function (req, res, next) {
   res.render('index', { title: 'KittyGame', cat: catID });
 });
 
+router.get('/user', function(req, res, next) {
+  res.send('respond with a resource');
+});
+
 module.exports = router;
