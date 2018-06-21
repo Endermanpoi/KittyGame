@@ -1,20 +1,19 @@
 extends layout
 
 block content
-  //-script(src="javascripts/initWeb3.js")
-  #main.container
+  .container
     .row.clearfix
       .col-md-12.column
         .jumbotron
           .row.clearfix
-            .col-md-5.colum
+            .col-sm-5.colum.text-center
               h1 可收藏
               h1 可繁殖
               h1 讨人喜欢
               p 收藏并繁殖数字喵咪
               p
-                a.btn.btn-success.btn-lg(href='#') 开始游戏
-            .col-md-7.column
+                a.btn.btn-success.btn-lg(href='/user') 开始游戏
+            .col-sm-7.column
               #carousel-565026.carousel.slide(data-ride="carousel",data-wrap="true")
                 .carousel-inner
                   .item.active

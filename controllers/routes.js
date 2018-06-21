@@ -14,7 +14,11 @@ router.get('/about', function (req, res, next) {
 });
 
 router.get('/user', function (req, res, next) {
-  res.send('respond with a resource');
+  res.render('user', { title: '我的喵咪' });
+});
+
+router.get('/market', function (req, res, next) {
+  res.render('market', { title: '喵咪市场' });
 });
 
 module.exports = router;
