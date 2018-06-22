@@ -1,3 +1,12 @@
 extends layout
-
+  
 block content
+  script(src="javascripts/libs/kittylist.js")
+  script(src="javascripts/market.js")
+  #main.container
+    .row.clearfix
+      .col-md-12.column
+        h1.text-center 喵市
+        br
+        #list
+          img.img-responsive.center-block(alt='loading', src='images/loading.gif')    

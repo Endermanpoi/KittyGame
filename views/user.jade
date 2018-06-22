@@ -1,12 +1,21 @@
 extends layout
 
 block content
-  script(src="javascripts/initWeb3.js")
-  script(src="javascripts/showlist.js")
+  script(src="javascripts/libs/initWeb3.js")
+  script(src="javascripts/libs/kittylist.js")
+  script(src="javascripts/user.js")
   #main.container
     .row.clearfix
       .col-md-12.column
         h1 我的猫咪
+        h5.text-muted#address 我的地址：
+        ul#tab.nav.nav-pills
+          li#all
+            a(onclick='allkitty()') 所有喵咪
+          li#sale
+            a(onclick='sale()') 等待收养
+          li#breeding
+            a(onclick='breeding()') 等待育种
         br
         #list
-          img.img-responsive.center-block(alt='loading', src='images/loading.gif')
+          img#loading.img-responsive.center-block(src='images/loading.gif', alt='loading')

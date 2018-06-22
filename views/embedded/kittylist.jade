@@ -1,0 +1,62 @@
+div(id='page#{page}')
+  .row
+    - for(var i=0;i<kitty.length;i++){
+      .col-xs-6.col-sm-4.col-md-3.column
+        a.btn.btn-block.btn-default(href='/' style="display:none")
+          img.img-responsive(src='images/cat/#{kitty[i]}.png')
+          h4.pull-left  猫咪 ##{kitty[i]}
+          .pull-right
+            - if(breeding[i]){
+              span.label.label-success 等待育种
+            - }
+              br
+            - if(sale[i]){
+              span.label.label-warning 等待收养
+            - }
+          br
+          br
+        br
+    - }
+  - if(pagenum>1){
+  nav(style='text-align: center')
+    ul.pagination
+      li
+        a.btn(onclick='showlist(#{page}-1)') &lt;
+      - if(page<=5){
+      - for(var i=1;i<page;i++){
+        li
+          a.btn(onclick='showlist(#{i})')= i
+      - }
+      - }else{
+        li
+          a.btn(onclick='showlist(1)') 1
+        li.dsiabled
+          a ...
+      - for(var i=page-2;i<page;i++){
+        li
+          a.btn(onclick='showlist(#{i})')= i
+      - }  
+      - }
+      li.active
+        a.btn(onclick='showlist(#{page})')= page
+      - var i=page
+      - i++
+      - if(pagenum-page<5){
+      - for(;i<=pagenum;i++){
+        li
+          a.btn(onclick='showlist(#{i})')= i
+      - }
+      - }else{
+      - for(;i-3<page;i++){
+        li
+          a.btn(onclick='showlist(#{i})')= i
+      - }  
+        li.dsiabled
+          a ...
+        li
+          a.btn(onclick='showlist(#{pagenum})')= pagenum
+      - }
+      li
+        a.btn(onclick='showlist(#{page}+1)') &gt;
+    br
+  - }

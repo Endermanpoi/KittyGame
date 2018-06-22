@@ -30,7 +30,8 @@ window.addEventListener('load', function () {
 		if (web3.eth.accounts[0] !== userAccount) {
 			userAccount = web3.eth.accounts[0];
 			console.log("acc:" + userAccount);
-			showlist(userAccount,false,false);
+			$('#address').html('我的地址：'+userAccount);
+			start();
 		}
 	}, 100);
 })
