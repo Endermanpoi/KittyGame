@@ -30,6 +30,7 @@ window.addEventListener('load', function () {
 		if (web3.eth.accounts[0] !== userAccount) {
 			userAccount = web3.eth.accounts[0];
 			console.log("acc:" + userAccount);
+			showlist(userAccount,false,false);
 		}
 	}, 100);
 })

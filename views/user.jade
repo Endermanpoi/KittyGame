@@ -2,49 +2,11 @@ extends layout
 
 block content
   script(src="javascripts/initWeb3.js")
+  script(src="javascripts/showlist.js")
   #main.container
     .row.clearfix
       .col-md-12.column
         h1 我的猫咪
         br
-        .row.clearfix
-          .col-xs-6.col-sm-4.col-md-3.col-lg-2.column
-            button.btn.btn-block.btn-default(type='button')
-              img.img-responsive(alt='140x140', src='images/cat/0.png')
-              p 猫咪 #1234
-            br
-          .col-xs-6.col-sm-4.col-md-3.col-lg-2.column
-            button.btn.btn-block.btn-primary(type='button')
-              img.img-responsive(alt='140x140', src='images/cat/1.png')
-              p 12345
-            br
-          .col-xs-6.col-sm-4.col-md-3.col-lg-2.column
-            button.btn.btn-block.btn-success(type='button')
-              img.img-responsive(alt='140x140', src='images/cat/2.png')
-              p 12345
-            br
-          .col-xs-6.col-sm-4.col-md-3.col-lg-2.column
-            button.btn.btn-block.btn-info(type='button')
-              img.img-responsive(alt='140x140', src='images/cat/3.png')
-              p 12345
-            br
-          .col-xs-6.col-sm-4.col-md-3.col-lg-2.column
-            button.btn.btn-block.btn-warning(type='button')
-              img.img-responsive(alt='140x140', src='images/cat/0.png')
-              p 12345
-            br
-          .col-xs-6.col-sm-4.col-md-3.col-lg-2.column
-            button.btn.btn-block.btn-danger(type='button')
-              img.img-responsive(alt='140x140', src='images/cat/0.png')
-              p 12345
-            br
-          .col-xs-6.col-sm-4.col-md-3.col-lg-2.column
-            button.btn.btn-block.btn-link(color='#fcf8e3')
-              img.img-responsive(alt='140x140', src='images/cat/0.png')
-              p 12345
-            br
-          .col-xs-6.col-sm-4.col-md-3.col-lg-2.column
-            button.btn.btn-block(type='button')
-              img.img-responsive(alt='140x140', src='images/cat/0.png')
-              p 12345
-            br
+        #list
+          img.img-responsive.center-block(alt='loading', src='images/loading.gif')
