@@ -2,15 +2,17 @@ extends layout
   
 block content
   script(src="javascripts/libs/initWeb3.js")
+  script(src="javascripts/libs/kittylist.js")
   script(src="javascripts/breeding.js")
   #main.container
     .row.clearfix
       .col-md-12.column
         h1.text-center 新喵咪！
+        br
         .row.clearfix
             .col-xs-2.column
             .col-xs-3.column
-              a.btn.btn-block.btn-primary
+              a.btn.btn-block.btn-primary(onclick='mykitty()')
                 #kittyA
                   img.img-responsive(src='images/what.png')
                   h4 选择猫咪
@@ -19,11 +21,17 @@ block content
                 img.img-responsive(src='images/add.png')
                 h4 合成
             .col-xs-3.column
-              a.btn.btn-block.btn-info
+              a.btn.btn-block.btn-info(onclick='otherkitty()')
                 #kittyB
                   img.img-responsive(src='images/what.png')
                   h4 选择猫咪
             .col-xs-2.column
         br
+        h4#tip.text-muted PS：喵咪A必须为您自己的喵咪
+        ul#tab.nav.nav-pills.center-block
+          li#alluncool.active
+            a.btn(onclick='alluncool()') 所有待育种喵咪
+          li#myuncool
+            a.btn(onclick='myuncool()') 我的猫咪
+        br
       #list
-          img.img-responsive.center-block(alt='loading', src='images/loading.gif')    

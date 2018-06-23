@@ -100,6 +100,8 @@ block content
           .modal-body
             h4.modal-title 您确认要购买猫咪 ##{id}吗？
             h5 一旦您确认，我们将提交交易
+            h5.text-muted 交易需要消耗GAS，我们需要您支付0.005ETH的作为临时GAS；
+            h5.text-muted 交易完成后，消耗剩余的ETH将退回给您
             br
             button.pull-left.btn.btn-default(type='button', data-dismiss='modal') 取消
             button.pull-right.btn.btn-primary(type='button' onclick='buykitty(#{id})') 确认

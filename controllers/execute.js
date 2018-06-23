@@ -23,13 +23,17 @@ router.post('/getlist', function (req, res, next) {
   var data = {
     kittys: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
   };
-  if (req.body.type == '1') {
+  if (req.body.type == '1') {//出售
     data = {
       kittys: [0, 2, 4, 5, 7]
     };
-  } else if (req.body.type == '2') {
+  } else if (req.body.type == '2') {//育种
     data = {
-      kittys: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,  14]
+      kittys: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14]
+    };
+  } else if (req.body.type == '3') {//未冷却
+    data = {
+      kittys: [0, 1, 2, 3, 9, 10, 11, 12, 14]
     };
   }
   res.json(data);

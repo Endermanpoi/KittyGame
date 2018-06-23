@@ -21,6 +21,7 @@ function start() {
 }
 
 function breeding(id) {
+	var owner = $("#owner").text().toLowerCase();
 	if (web3.eth.accounts[0] === owner) {
 		window.location.href = "/breeding?a_id=" + id;
 	}else{
