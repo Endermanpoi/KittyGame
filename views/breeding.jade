@@ -1,0 +1,29 @@
+extends layout
+  
+block content
+  script(src="javascripts/libs/initWeb3.js")
+  script(src="javascripts/breeding.js")
+  #main.container
+    .row.clearfix
+      .col-md-12.column
+        h1.text-center 新喵咪！
+        .row.clearfix
+            .col-xs-2.column
+            .col-xs-3.column
+              a.btn.btn-block.btn-primary
+                #kittyA
+                  img.img-responsive(src='images/what.png')
+                  h4 选择猫咪
+            .col-xs-2.column
+              a.btn.btn-block.btn-default
+                img.img-responsive(src='images/add.png')
+                h4 合成
+            .col-xs-3.column
+              a.btn.btn-block.btn-info
+                #kittyB
+                  img.img-responsive(src='images/what.png')
+                  h4 选择猫咪
+            .col-xs-2.column
+        br
+      #list
+          img.img-responsive.center-block(alt='loading', src='images/loading.gif')    

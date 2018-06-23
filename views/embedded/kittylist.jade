@@ -2,7 +2,7 @@ div(id='page#{page}')
   .row
     - for(var i=0;i<kitty.length;i++){
       .col-xs-6.col-sm-4.col-md-3.column
-        a.btn.btn-block.btn-default(href='/' style="display:none")
+        a.btn.btn-block.btn-default(onclick='choose(#{kitty[i]})' style="display:none")
           img.img-responsive(src='images/cat/#{kitty[i]}.png')
           h4.pull-left  猫咪 ##{kitty[i]}
           .pull-right

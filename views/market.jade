@@ -7,6 +7,13 @@ block content
     .row.clearfix
       .col-md-12.column
         h1.text-center 喵市
+        ul#tab.nav.nav-pills
+          li#all
+            a.btn(onclick='allkitty()') 所有喵咪
+          li#sale
+            a.btn(onclick='sale()') 等待收养
+          li#breeding
+            a.btn(onclick='breeding()') 等待育种
         br
         #list
           img.img-responsive.center-block(alt='loading', src='images/loading.gif')    

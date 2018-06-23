@@ -1,0 +1,175 @@
+extends layout
+  
+block content
+  script(src="javascripts/libs/initWeb3.js")
+  script(src="javascripts/kittyinfo.js")
+  #main.container
+    .row.clearfix
+      .col-md-12.column
+        h1 猫咪 ##{id}
+        .row.clearfix
+          .col-md-8.col-sm-12.column.text-center
+            .jumbotron
+              .center-block
+                img.img-responsive.center-block(alt='kitty#{id}', src='images/cat/#{id}.png')
+          .col-md-4.col-sm-6.column
+            .panel(style='height:25%')
+              h2.text-muted #{generation}代猫
+              h4
+                - if(sale){
+                  span.label.label-warning 出售中
+                  a                 
+                - }
+                - if(breeding){
+                  span.label.label-success 繁育中
+                  a                
+                - }
+                - if(cooling){
+                  span.label.label-default 冷却中
+                - }
+              br
+          .col-md-4.col-sm-6.column
+            .panel(style='height:25%')
+              h3#add 主人
+                a.btn.btn-xs.text-muted 复制地址
+              #owner(style='width:100%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis') #{own}
+              br
+              br
+          .col-md-4.col-sm-6.column
+            .panel(style='height:25%')
+              - if(sale){
+                h3 收养价格
+                  .pull-right #{saleprice}
+                    small   ETH
+                .pull-right
+                  button#unsale.hidden.btn.btn-default.btn-sm(data-toggle='modal', data-target='#unsaleModal') 取消出售
+                  button#buy.btn.btn-warning.btn-sm(data-toggle='modal', data-target='#buyModal') 立即购买
+              - }else{
+                h3 收养价格
+                  .pull-right 不出售
+                .pull-right
+                  button#sale.hidden.btn.btn-info.btn-sm(data-toggle='modal', data-target='#saleModal') 出售猫咪
+              - }
+              br
+              br
+          .col-md-4.col-sm-6.column
+            .panel(style='height:25%')
+              - if(breeding){
+                h3 繁殖价格
+                  .pull-right #{breedingprice}
+                    small   ETH
+              - }else{
+                h3 繁殖价格
+                  .pull-right 不繁殖
+              - }
+                .pull-right
+                  - if(!breeding){
+                    button.hidden.btn.btn-info.btn-sm(data-toggle='modal', data-target='#breedingModal') 出售繁殖权
+                    a 
+                  - }else{
+                    button.hidden.btn.btn-default.btn-sm(data-toggle='modal', data-target='#unbreedingModal') 取消出售繁殖权
+                    a 
+                  - }
+                  - if(!cooling){
+                    a.btn.btn-success.btn-sm(onclick='breeding(#{id})') 立即繁殖
+                  - }else{
+                    span.btn.btn-danger.btn-sm.disabled 冷却中
+                  - }
+                .pull-right
+              br
+              br
+        .row.clearfix
+          h2 喵父母
+          - if(generation==0){
+            h4.text-muted 抱歉，我是石头里蹦出来的
+          - }else{
+          .col-md-3.col-sm-6.column
+            a.btn.btn-block.btn-default(href="/kitty?id=#{fid}")
+              img.img-responsive.center-block(alt='kitty#{fid}', src='images/cat/#{fid}.png')
+              p 猫咪 ##{fid}
+          .col-md-3.col-sm-6.column
+            a.btn.btn-block.btn-default(href="/kitty?id=#{mid}")
+              img.img-responsive.center-block(alt='kitty#{mid}', src='images/cat/#{mid}.png')
+              p 猫咪 ##{mid}
+          - }
+  - if(sale){
+    //购买
+    #buyModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='buyModalLabel', aria-hidden='true')
+      .modal-dialog
+        .modal-content
+          .modal-body
+            h4.modal-title 您确认要购买猫咪 ##{id}吗？
+            h5 一旦您确认，我们将提交交易
+            br
+            button.pull-left.btn.btn-default(type='button', data-dismiss='modal') 取消
+            button.pull-right.btn.btn-primary(type='button' onclick='buykitty(#{id})') 确认
+            br
+            br
+    //取消出售
+    #unsaleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='unsaleModalLabel', aria-hidden='true')
+      .modal-dialog
+        .modal-content
+          .modal-body
+            h4.modal-title 您确认取消出售猫咪 ##{id}吗？
+            br
+            button.pull-left.btn.btn-default(type='button', data-dismiss='modal') 取消
+            button.pull-right.btn.btn-primary(type='button' onclick='unsalekitty(#{id})') 确认
+            br
+            br
+  - }else{
+    //出售
+    #saleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='saleModalLabel', aria-hidden='true')
+      .modal-dialog
+        .modal-content
+          .modal-body
+            h4.modal-title 您确认要出售猫咪 ##{id}吗？
+            h5 如果您确认要出售这只猫咪，请输入您期望的价格
+            .input-group
+              input#salewant.form-control(type='text' placeholder='1.000')
+              span.input-group-addon ETH
+            br
+            button.pull-left.btn.btn-default(type='button', data-dismiss='modal') 取消
+            button.pull-right.btn.btn-primary(type='button' onclick='salekitty(#{id})') 确认
+            br
+            br
+  - }
+  - if(!breeding){
+    //出售繁殖
+    #breedingModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='breedingModalLabel', aria-hidden='true')
+      .modal-dialog
+        .modal-content
+          .modal-body
+            h4.modal-title 您确认要出售猫咪 ##{id}的繁殖权吗？
+            h5 如果您确认要出售这只猫咪的繁殖权，请输入您期望的价格
+            .input-group
+              input#breedingwant.form-control(type='text' placeholder='1.000')
+              span.input-group-addon ETH
+            br
+            button.pull-left.btn.btn-default(type='button', data-dismiss='modal') 取消
+            button.pull-right.btn.btn-primary(type='button' onclick='breedingkitty(#{id})') 确认
+            br
+            br
+  - }else{
+    //取消出售繁殖
+    #unbreedingModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='unbreedingModalLabel', aria-hidden='true')
+      .modal-dialog
+        .modal-content
+          .modal-body
+            h4.modal-title 您确认取消出售猫咪 ##{id}的繁殖权吗？
+            br
+            button.pull-left.btn.btn-default(type='button', data-dismiss='modal') 取消
+            button.pull-right.btn.btn-primary(type='button' onclick='unbreedingkitty(#{id})') 确认
+            br
+            br
+  - }
+  //等待
+  #waitingModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='waitingModalLabel', aria-hidden='true')
+    .modal-dialog
+      .modal-content
+        .modal-body
+          h4.modal-title 交易处理中
+          h5 交易已提交，需要一段时间处理，您可以等待交易结束，或者先去看看其他的
+          img#loading.img-responsive.center-block(src='images/loading.gif', alt='loading')
+          button.pull-right.btn.btn-default(type='button', data-dismiss='modal') 关闭
+          br
+          br

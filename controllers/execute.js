@@ -35,4 +35,8 @@ router.post('/getlist', function (req, res, next) {
   res.json(data);
 });
 
+router.post('/getkitty', function (req, res, next) {
+
+});
+
 module.exports = router;

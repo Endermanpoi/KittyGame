@@ -1,6 +1,6 @@
 var userAccount;
 var web3;
-window.addEventListener('load', function () {
+function initweb3(callback) {
 	if (typeof web3 !== 'undefined') {
 		web3 = new Web3(web3.currentProvider);
 		console.log("MetaMask!");
@@ -31,7 +31,8 @@ window.addEventListener('load', function () {
 			userAccount = web3.eth.accounts[0];
 			console.log("acc:" + userAccount);
 			$('#address').html('我的地址：'+userAccount);
-			start();
+
+			callback(callback);
 		}
 	}, 100);
-})
+}
