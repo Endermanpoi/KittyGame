@@ -1,4 +1,4 @@
-var aid, bid, pay = 0.005, now;
+var aid, bid, pay = 0, now;
 start();
 
 function start() {
@@ -32,9 +32,9 @@ function choose(id) {
 			},
 			function (data, status) {
 				if (!data.ismine) {
-					pay = (data.price + 0.005).toFixed(3);
+					pay = data.price;
 				} else {
-					pay = 0.005;
+					pay = 0;
 				}
 				console.log(pay);
 				$("#price").html(pay + '<small>ETH</small>');
@@ -105,18 +105,22 @@ function breeding() {
 function breedingsure() {
 	$("#breedingModal").modal('hide');
 	$("#waitingModal").modal('show');
-	breed(aid, bid, function () {
-		$.post("/breeding",
-			{
-				aid: aid,
-				bid: bid,
-				acc: userAccount
-			},
-			function (data, status) {
-				newid = data.id;
-				setTimeout(function () {
-					window.location.href = "/kitty?id=" + newid;
-				}, 5000);
-			});
+	breed(aid, bid, function (done) {
+		if (done) {
+			$.post("/breeding",
+				{
+					aid: aid,
+					bid: bid,
+					acc: userAccount
+				},
+				function (data, status) {
+					newid = data.id;
+					setTimeout(function () {
+						window.location.href = "/kitty?id=" + newid;
+					}, 5000);
+				});
+		} else {
+			$("#errModal").modal('show');
+		}
 	});
 }

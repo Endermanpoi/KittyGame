@@ -1,6 +1,5 @@
 var Web3 = require("web3");
 var fs = require('fs');
-var inheritance = require('./DNAinheritance');
 var BN2Buf = require('./BN2Buf');
 
 var web3 = new Web3();
@@ -9,53 +8,128 @@ var abi = JSON.parse(fs.readFileSync('./EthData/KittyGame.json'));
 var address = fs.readFileSync('./EthData/KittyGame.txt').toString();
 var KittyGame = web3.eth.contract(abi).at(address);
 
-function getDNA(catID) {
-	var data = KittyGame.getKittyDna.call(catID);
-	var DNA = BN2Buf.bigNum2Buffer(data);
-	return DNA;
+function check(transactionHash, callback) {
+	web3.eth.getTransactionReceipt(transactionHash, function (err, done) {
+		if (done != null) {
+			callback();
+		} else {
+			setTimeout(function () {
+				check(transactionHash, callback);
+			}, 1000);
+		}
+	});
 }
 
-function getMaster(catID) {
-	var data = KittyGame.getAdopt.call(catID);
-	var master = data.toString(16);
-	return master;
+function getDNA(id) {
+	return BN2Buf.bigNum2Buffer(new BigNumber('0x' + getKitty(id).dna));
 }
 
-function getParents(catID) {
-	var parents = {
-		mID: KittyGame.getMatronId.call(catID).toString(16),
-		fID: KittyGame.getSireId.call(catID).toString(16)
+function newKitty(kitty, acc, callback) {
+	web3.personal.unlockAccount(web3.eth.accounts[0], "000000");
+	var catID = KittyGame.createKitty.call(acc, kitty.dna, kitty.mid, kitty.fid, kitty.generation);
+	KittyGame.createKitty.estimateGas(acc, kitty.dna, kitty.mid, kitty.fid, kitty.generation, function (err, gas) {
+		KittyGame.createKitty.sendTransaction(acc, kitty.dna, kitty.mid, kitty.fid, kitty.generation, { from: web3.eth.accounts[0], gas: gas + 2000 },
+			function (err, transactionHash) {
+				if (err)
+					callback(err, -1);
+				else {
+					check(transactionHash, function () {
+						callback(err, catID);
+					});
+				}
+			});
+	});
+}
+
+function getKitty(id) {
+	var data = KittyGame.getKitty.call(id);
+	var sale = KittyGame.isSell.call(id);
+	var salebreeding = KittyGame.isSireSell.call(id);
+	var owner = KittyGame.ownerOf.call(id);
+	var kitty = {
+		id: id,
+		own: owner,
+		generation: parseInt(data[5].toString()),
+		sale: sale,
+		saleprice: 0,
+		salebreeding: salebreeding,
+		salebreedingprice: 0,
+		cooling: !data[0],
+		dna: data[1].toString(),
+		mid: parseInt(data[2].toString()),
+		fid: parseInt(data[3].toString()),
+	};
+	if (sale) {
+		var temp = KittyGame.getAuctionByKitty.call(id)[1];
+		kitty.saleprice = parseFloat(temp);
 	}
-	return parents;
+	if (salebreeding) {
+		var temp = KittyGame.getSireByKitty.call(id)[1];
+		kitty.saleprice = parseFloat(temp);
+	}
+	return kitty;
 }
 
-function newCat(DNA, UserAddress) {
-	var data = BN2Buf.buffer2BigNum(DNA);
-	web3.personal.unlockAccount(web3.eth.accounts[0], "000000");
-	var catID = KittyGame.saveKitty.call(data, UserAddress);
-	var gasNeed = KittyGame.saveKitty.estimateGas(data, UserAddress);
-	KittyGame.saveKitty.sendTransaction(data, UserAddress, { from: web3.eth.accounts[0], gas: gasNeed + 1000 });
-	return catID.toString();
+/** 获取猫id的数组
+  1.无地址，返回猫市中所有的猫
+  2.有地址，返回用户的猫
+*/
+function gainKitty(address, type) {
+	var data = new Array();   //返回的数组
+	var result = KittyGame.getKitties.call(); //获取所有的猫的数组
+	if (address === null || address === undefined || address === "") {  //没有地址，显示所有猫的数组
+		data = result;
+	} else { // 有地址 和用户有关
+		var _result = KittyGame.getKittiesByOwner.call(address);  //用户所有猫
+		if (type === '0') {
+			data = _result;
+		}
+		else if (type === '1') {   //有地址  type == 1 显示所有出售的猫的数组
+			var counter = 0;
+			for (var i = 0; i < _result.length; i++) {  //遍历所有猫
+				if (KittyGame.isSell.call(i)) {       //判断是否在出售
+					data[counter] = i;
+					counter++
+				}
+			}
+		} else if (type === '2') {  //type == 2 获得所有出售交配权的猫的数组
+			var counter = 0;
+			for (var i = 0; i < _result.length; i++) {  //遍历所有猫
+				if (KittyGame.isSireSell.call(i)) {  //判断是否出售交配权
+					data[counter] = i;
+					counter++;
+				}
+			}
+		} else if (type === '3') {  //type === 3  显示所有已冷却的猫的数组
+			var counter = 0;
+			for (var i = 0; i < _result.length; i++) { //遍历所有猫
+				if (KittyGame.isReady.call(i)) {  //判断是否冷却完毕
+					data[counter] = i;
+					counter++;
+				}
+			}
+		}
+	}
+	return data;   //返回数组
 }
 
-function babyCat(DNA, UserAddress, fID, mID) {
-	var data = BN2Buf.buffer2BigNum(DNA);
-	web3.personal.unlockAccount(web3.eth.accounts[0], "000000");
-	var catID = KittyGame.creatNewKitty.call(data, UserAddress, mID, fID);
-	var gasNeed = KittyGame.creatNewKitty.estimateGas(data, UserAddress, mID, fID);
-	KittyGame.creatNewKitty.sendTransaction(data, UserAddress, mID, fID, { from: web3.eth.accounts[0], gas: gasNeed + 1000 });
-	return catID.toString();
+function getListDeatil(idlist) {
+	var temp = idlist.length;
+	var data = new Array();
+	for (var i = 0; i < temp; i++) {
+		var kitty = getKitty(idlist[i]);
+		var tmp = {
+			id: idlist[i],
+			sale: kitty.sale,
+			breeding: kitty.salebreeding
+		};
+		data.push(tmp);
+	}
+	return data;
 }
 
-function deal(catID, TargetAddress) {
-	var data = fs.readFileSync('./DNAtemp/' + catID + '.dna');
-	var UserAddress = data.slice(27, 43);
-	TargetAddress.copy(UserAddress);
-}
-
-exports.getDNA = getDNA;
-exports.getMaster = getMaster;
-exports.getParents = getParents;
-exports.newCat = newCat;
-exports.babyCat = babyCat;
-exports.deal = deal;
+exports.getDNA=getDNA;
+exports.newKitty = newKitty;
+exports.getKitty = getKitty;
+exports.gainKitty = gainKitty;
+exports.getListDeatil = getListDeatil;

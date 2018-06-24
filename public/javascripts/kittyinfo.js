@@ -43,64 +43,50 @@ function buykitty(id) {
 }
 
 function salekitty(id) {
-	$.post("/sale",
-		{
-			id: id,
-			price: $("#salewant").val()
-		},
-		function (data, status) {
-			if (data) {
-				console.log('sale:' + id);
-				$("#saleModal").modal('hide');
-			} else {
-				$("#errModal").modal('show');
-			}
-		});
+	createAuction(id, $("#salewant").val(), function (done) {
+		if (done) {
+			console.log('sale:' + id);
+			$("#saleModal").modal('hide');
+			$("#waitingModal").modal('show');
+			window.location.reload();
+		} else {
+			$("#errModal").modal('show');
+		}
+	});
 }
 
 function unsalekitty(id) {
-	$.post("/unsale",
-		{
-			id: id,
-		},
-		function (data, status) {
-			if (data) {
-				console.log('unsale:' + id);
-				$("#unsaleModal").modal('hide');
-			} else {
-				$("#errModal").modal('show');
-			}
-		});
+	cancelAuction(id, function (done) {
+		if (done) {
+			console.log('unsale:' + id);
+			$("#unsaleModal").modal('hide');
+			window.location.reload();
+		} else {
+			$("#errModal").modal('show');
+		}
+	});
 }
 
 function salebreedingkitty(id) {
-	$.post("/salebreeding",
-		{
-			id: id,
-			price: $("#salebreedingwant").val()
-		},
-		function (data, status) {
-			if (data) {
-				console.log('salebreeding:' + id);
-				$("#salebreedingModal").modal('hide');
-			} else {
-				$("#errModal").modal('show');
-			}
-		});
+	creatSireSell(id, $("#salebreedingwant").val(), function (done) {
+		if (done) {
+			console.log('salebreeding:' + id);
+			$("#salebreedingModal").modal('hide');
+			window.location.reload();
+		} else {
+			$("#errModal").modal('show');
+		}
+	});
 }
 
 function unsalebreedingkitty(id) {
-	$.post("/unsalebreeding",
-		{
-			id: id,
-		},
-		function (data, status) {
-			if (data) {
-				console.log('unsalebreeding:' + id);
-				$("#unsalebreedingModal").modal('hide');
-
-			} else {
-				$("#errModal").modal('show');
-			}
-		});
+	cancelSireSell(id, function (done) {
+		if (done) {
+			console.log('unsalebreeding:' + id);
+			$("#unsalebreedingModal").modal('hide');
+			window.location.reload();
+		} else {
+			$("#errModal").modal('show');
+		}
+	});
 }

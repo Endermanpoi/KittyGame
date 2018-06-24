@@ -1,4 +1,5 @@
-[
+var kittygameAddress='0x808b42de44807cfa9d152b2adf41e3d34b2dbc3f';
+var KittyGameABI=[
 	{
 		"anonymous": false,
 		"inputs": [
@@ -564,4 +565,4 @@
 		"stateMutability": "view",
 		"type": "function"
 	}
-]
+];

@@ -2,16 +2,16 @@ div(id='page#{page}')
   .row
     - for(var i=0;i<kitty.length;i++){
       .col-xs-6.col-sm-4.col-md-3.column
-        a.btn.btn-block.btn-default(onclick='choose(#{kitty[i]})' style="display:none")
-          img.img-responsive(src='images/cat/#{kitty[i]}.png')
-          h4.pull-left  猫咪 ##{kitty[i]}
+        a.btn.btn-block.btn-default(onclick='choose(#{kitty[i].id})' style="display:none")
+          img.img-responsive(src='images/cat/#{kitty[i].id}.png')
+          h4.pull-left  猫咪 ##{kitty[i].id}
           .pull-right
-            - if(breeding[i]){
-              span.label.label-success 等待育种
+            - if(kitty[i].breeding){
+              span.label.label-success 出售育种中
             - }
               br
-            - if(sale[i]){
-              span.label.label-warning 等待收养
+            - if(kitty[i].sale){
+              span.label.label-warning 等待收养中
             - }
           br
           br

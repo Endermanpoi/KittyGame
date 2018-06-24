@@ -2,6 +2,7 @@ extends layout
   
 block content
   script(src="javascripts/libs/initWeb3.js")
+  script(src="javascripts/libs/KGABI.js")
   script(src="javascripts/libs/kittylist.js")
   script(src="javascripts/breeding.js")
   #main.container
@@ -20,7 +21,7 @@ block content
               a.btn.btn-block.btn-default(onclick='breeding()')
                 img.img-responsive(src='images/add.png')
                 h4 繁殖
-                h4#price 0.005
+                h4#price 0
                   small ETH
             .col-xs-3.column
               a.btn.btn-block.btn-info(onclick='otherkitty()')
