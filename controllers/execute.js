@@ -43,4 +43,20 @@ router.post('/getkitty', function (req, res, next) {
 
 });
 
+router.post('/getbreedingprice', function (req, res, next) {
+  var id = req.body.id;
+  var acc = req.body.acc;
+  res.json({
+    price: 0.2,
+    ismine: false
+  });
+});
+
+router.post('/breeding', function (req, res, next) {
+  var aid = req.body.aid;
+  var bid = req.body.bid;
+  res.json({
+    id: 14
+  });
+});
 module.exports = router;

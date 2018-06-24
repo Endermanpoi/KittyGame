@@ -20,7 +20,7 @@ block content
                   span.label.label-warning 出售中
                   a                 
                 - }
-                - if(breeding){
+                - if(salebreeding){
                   span.label.label-success 繁育中
                   a                
                 - }
@@ -54,24 +54,28 @@ block content
               br
           .col-md-4.col-sm-6.column
             .panel(style='height:25%')
-              - if(breeding){
-                h3 繁殖价格
-                  .pull-right #{breedingprice}
+              - if(salebreeding){
+                h3 繁育价格
+                  .pull-right #{salebreedingprice}
                     small   ETH
               - }else{
-                h3 繁殖价格
-                  .pull-right 不繁殖
+                h3 繁育价格
+                  .pull-right 不繁育
               - }
                 .pull-right
-                  - if(!breeding){
-                    button.hidden.btn.btn-info.btn-sm(data-toggle='modal', data-target='#breedingModal') 出售繁殖权
+                  - if(!salebreeding){
+                    button.hidden.btn.btn-info.btn-sm(data-toggle='modal', data-target='#salebreedingModal') 出售繁育权
                     a 
                   - }else{
-                    button.hidden.btn.btn-default.btn-sm(data-toggle='modal', data-target='#unbreedingModal') 取消出售繁殖权
+                    button.hidden.btn.btn-default.btn-sm(data-toggle='modal', data-target='#unsalebreedingModal') 取消出售繁育权
                     a 
                   - }
                   - if(!cooling){
-                    a.btn.btn-success.btn-sm(onclick='breeding(#{id})') 立即繁殖
+                  - if(salebreeding){
+                    a.btn.btn-success.btn-sm(onclick='breeding(#{id})') 立即繁育
+                  - }else{
+                    a.hidden.btn.btn-success.btn-sm(onclick='breeding(#{id})') 立即繁育
+                  - }
                   - }else{
                     span.btn.btn-danger.btn-sm.disabled 冷却中
                   - }
@@ -98,10 +102,13 @@ block content
       .modal-dialog
         .modal-content
           .modal-body
-            h4.modal-title 您确认要购买猫咪 ##{id}吗？
+            h3.modal-title 您确认要购买猫咪 ##{id}吗？
             h5 一旦您确认，我们将提交交易
             h5.text-muted 交易需要消耗GAS，我们需要您支付0.005ETH的作为临时GAS；
+            h2.pull-right= saleprice+0.005
+                small   ETH
             h5.text-muted 交易完成后，消耗剩余的ETH将退回给您
+            h4 根据您的选择，您需要支付:
             br
             button.pull-left.btn.btn-default(type='button', data-dismiss='modal') 取消
             button.pull-right.btn.btn-primary(type='button' onclick='buykitty(#{id})') 确认
@@ -112,7 +119,7 @@ block content
       .modal-dialog
         .modal-content
           .modal-body
-            h4.modal-title 您确认取消出售猫咪 ##{id}吗？
+            h3.modal-title 您确认取消出售猫咪 ##{id}吗？
             br
             button.pull-left.btn.btn-default(type='button', data-dismiss='modal') 取消
             button.pull-right.btn.btn-primary(type='button' onclick='unsalekitty(#{id})') 确认
@@ -124,7 +131,7 @@ block content
       .modal-dialog
         .modal-content
           .modal-body
-            h4.modal-title 您确认要出售猫咪 ##{id}吗？
+            h3.modal-title 您确认要出售猫咪 ##{id}吗？
             h5 如果您确认要出售这只猫咪，请输入您期望的价格
             .input-group
               input#salewant.form-control(type='text' placeholder='1.000')
@@ -135,32 +142,32 @@ block content
             br
             br
   - }
-  - if(!breeding){
-    //出售繁殖
-    #breedingModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='breedingModalLabel', aria-hidden='true')
+  - if(!salebreeding){
+    //出售繁育
+    #salebreedingModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='salebreedingModalLabel', aria-hidden='true')
       .modal-dialog
         .modal-content
           .modal-body
-            h4.modal-title 您确认要出售猫咪 ##{id}的繁殖权吗？
-            h5 如果您确认要出售这只猫咪的繁殖权，请输入您期望的价格
+            h3.modal-title 您确认要出售猫咪 ##{id}的繁育权吗？
+            h5 如果您确认要出售这只猫咪的繁育权，请输入您期望的价格
             .input-group
-              input#breedingwant.form-control(type='text' placeholder='1.000')
+              input#salebreedingwant.form-control(type='text' placeholder='1.000')
               span.input-group-addon ETH
             br
             button.pull-left.btn.btn-default(type='button', data-dismiss='modal') 取消
-            button.pull-right.btn.btn-primary(type='button' onclick='breedingkitty(#{id})') 确认
+            button.pull-right.btn.btn-primary(type='button' onclick='salebreedingkitty(#{id})') 确认
             br
             br
   - }else{
-    //取消出售繁殖
-    #unbreedingModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='unbreedingModalLabel', aria-hidden='true')
+    //取消出售繁育
+    #unsalebreedingModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='unsalebreedingModalLabel', aria-hidden='true')
       .modal-dialog
         .modal-content
           .modal-body
-            h4.modal-title 您确认取消出售猫咪 ##{id}的繁殖权吗？
+            h3.modal-title 您确认取消出售猫咪 ##{id}的繁育权吗？
             br
             button.pull-left.btn.btn-default(type='button', data-dismiss='modal') 取消
-            button.pull-right.btn.btn-primary(type='button' onclick='unbreedingkitty(#{id})') 确认
+            button.pull-right.btn.btn-primary(type='button' onclick='unsalebreedingkitty(#{id})') 确认
             br
             br
   - }
@@ -169,8 +176,9 @@ block content
     .modal-dialog
       .modal-content
         .modal-body
-          h4.modal-title 交易处理中
-          h5 交易已提交，需要一段时间处理，您可以等待交易结束，或者先去看看其他的
+          h3.modal-title 交易处理中
+          h5 交易已提交，需要一段时间处理
+          h5 您可以等待交易结束，或者先去看看其他的，完成交易后喵咪自动加入您的猫咪
           img#loading.img-responsive.center-block(src='images/loading.gif', alt='loading')
           button.pull-right.btn.btn-default(type='button', data-dismiss='modal') 关闭
           br

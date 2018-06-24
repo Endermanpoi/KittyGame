@@ -14,20 +14,22 @@ block content
             .col-xs-3.column
               a.btn.btn-block.btn-primary(onclick='mykitty()')
                 #kittyA
-                  img.img-responsive(src='images/what.png')
+                  img.img-responsive(src='images/a.png')
                   h4 选择猫咪
             .col-xs-2.column
-              a.btn.btn-block.btn-default
+              a.btn.btn-block.btn-default(onclick='breeding()')
                 img.img-responsive(src='images/add.png')
-                h4 合成
+                h4 繁殖
+                h4#price 0.005
+                  small ETH
             .col-xs-3.column
               a.btn.btn-block.btn-info(onclick='otherkitty()')
                 #kittyB
-                  img.img-responsive(src='images/what.png')
+                  img.img-responsive(src='images/b.png')
                   h4 选择猫咪
             .col-xs-2.column
         br
-        h4#tip.text-muted PS：喵咪A必须为您自己的喵咪
+        h4#tip.text-muted PS：喵咪A必须为您自己的喵咪，喵咪B若为他人喵咪，则需向其主人支付繁育费
         ul#tab.nav.nav-pills.center-block
           li#alluncool.active
             a.btn(onclick='alluncool()') 所有待育种喵咪
@@ -35,3 +37,30 @@ block content
             a.btn(onclick='myuncool()') 我的猫咪
         br
       #list
+    #breedingModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='breedingModalLabel', aria-hidden='true')
+      .modal-dialog
+        .modal-content
+          .modal-body
+            h3.modal-title 您确认要繁殖两只喵咪吗？
+            h5.text-muted 交易需要消耗GAS，我们需要您支付0.005ETH的作为临时GAS；
+            h2#pay.pull-right
+                small   ETH
+            h5.text-muted 交易完成后，消耗剩余的ETH将退回给您
+            h4 根据您的选择，您需要支付:
+            br
+            button.pull-left.btn.btn-default(type='button', data-dismiss='modal') 取消
+            button.pull-right.btn.btn-primary(type='button' onclick='breedingsure()') 确认
+            br
+            br
+  //等待
+  #waitingModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='waitingModalLabel', aria-hidden='true')
+    .modal-dialog
+      .modal-content
+        .modal-body
+          h3.modal-title 繁殖处理中
+          h5 交易已提交，需要一段时间处理
+          h5 您可以等待繁殖结束，或者先去看看其他的，完成繁殖后喵咪自动加入您的猫咪
+          img#loading.img-responsive.center-block(src='images/loading.gif', alt='loading')
+          button.pull-right.btn.btn-default(type='button', data-dismiss='modal') 关闭
+          br
+          br

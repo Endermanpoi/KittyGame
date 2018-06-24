@@ -31,8 +31,8 @@ router.get('/kitty', function (req, res, next) {
     generation:0,
     sale:true,
     saleprice:1.000,
-    breeding:true,
-    breedingprice:0.05,
+    salebreeding:false,
+    salebreedingprice:0.05,
     cooling:false,
     mid:2,
     fid:3

@@ -1,19 +1,21 @@
-var aid, bid, now;
+var aid, bid, pay = 0.005, now;
 start();
 
 function start() {
-	initweb3(function () { });
-
-	$(document).ready(function () {
-		var aid = getPar('a_id');
-		var bid = getPar('b_id');
-		if (aid) {
-			$("#kittyA").html('<img src="images/cat/' + aid + '.png" class="img-responsive"><h4>猫咪 #' + aid + '</h4>');
-		}
-		if (bid) {
-			$("#kittyB").html('<img src="images/cat/' + bid + '.png" class="img-responsive"><h4>猫咪 #' + bid + '</h4>');
-		}
-		$('#tab').hide();
+	initweb3(function () {
+		$(document).ready(function () {
+			aid = getPar('a_id');
+			bid = getPar('b_id');
+			if (aid) {
+				now = 0;
+				choose(aid);
+			}
+			if (bid) {
+				now = 1;
+				choose(bid);
+			}
+			$('#tab').hide();
+		});
 	});
 }
 
@@ -23,8 +25,21 @@ function choose(id) {
 		$("#kittyA").html('<img src="images/cat/' + aid + '.png" class="img-responsive"><h4>猫咪 #' + aid + '</h4>');
 	} else {
 		bid = id;
-		$("#kittyB").html('<img src="images/cat/' + bid + '.png" class="img-responsive"><h4>猫咪 #' + bid + '</h4>');
-
+		$.post("/getbreedingprice",
+			{
+				id: bid,
+				acc: userAccount
+			},
+			function (data, status) {
+				if (!data.ismine) {
+					pay = (data.price + 0.005).toFixed(3);
+				} else {
+					pay = 0.005;
+				}
+				console.log(pay);
+				$("#price").html(pay + '<small>ETH</small>');
+				$("#kittyB").html('<img src="images/cat/' + bid + '.png" class="img-responsive"><h4>猫咪 #' + bid + '</h4>');
+			});
 	}
 }
 
@@ -54,20 +69,54 @@ function mykitty() {
 
 function otherkitty() {
 	getlist(null, 3);
-	now = 1; 
+	now = 1;
 	$('#tab').show();
 }
 
 function alluncool() {
 	getlist(null, 3);
-	now = 1; 
+	now = 1;
 	$("#tab li[class='active'").removeClass("active");
 	$("#alluncool").addClass("active");
 }
 
 function myuncool() {
 	getlist(null, 3);
-	now = 1; 
+	now = 1;
 	$("#tab li[class='active'").removeClass("active");
 	$("#myuncool").addClass("active");
+}
+
+function breeding() {
+	console.log(aid);
+	console.log(bid);
+	if (aid && bid) {
+		if (aid != bid) {
+			$("#pay").html(pay + '<small>ETH</small>');
+			$("#breedingModal").modal('show');
+		} else {
+			alert('自己和自己怎么繁殖呢？');
+		}
+	} else {
+		alert('请选择喵咪')
+	}
+}
+
+function breedingsure() {
+	$("#breedingModal").modal('hide');
+	$("#waitingModal").modal('show');
+	breed(aid, bid, function () {
+		$.post("/breeding",
+			{
+				aid: aid,
+				bid: bid,
+				acc: userAccount
+			},
+			function (data, status) {
+				newid = data.id;
+				setTimeout(function () {
+					window.location.href = "/kitty?id=" + newid;
+				}, 5000);
+			});
+	});
 }

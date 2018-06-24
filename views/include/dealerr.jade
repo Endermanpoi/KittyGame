@@ -1,0 +1,12 @@
+div
+  #err.modal.fade(tabindex='-1', role='dialog', aria-labelledby='errModalLabel', aria-hidden='true')
+    .modal-dialog
+      .modal-content
+        .modal-body
+          h3.modal-title 发生了一些错误！
+          h5 交易已提交，需要一段时间处理
+          h5 您可以等待交易结束，或者先去看看其他的，完成交易后喵咪自动加入您的猫咪
+          img#loading.img-responsive.center-block(src='images/loading.gif', alt='loading')
+          button.pull-right.btn.btn-default(type='button', data-dismiss='modal') 关闭
+          br
+          br

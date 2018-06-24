@@ -1,8 +1,10 @@
 start();
 
 function start() {
-	initweb3(allkitty);
-	$('#address').html('我的地址：'+userAccount);
+	initweb3(function () {
+		$('#address').html('我的地址：' + userAccount);
+		allkitty();
+	});
 }
 
 function choose(id) {

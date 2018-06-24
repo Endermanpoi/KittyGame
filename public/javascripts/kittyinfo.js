@@ -24,33 +24,83 @@ function breeding(id) {
 	var owner = $("#owner").text().toLowerCase();
 	if (web3.eth.accounts[0] === owner) {
 		window.location.href = "/breeding?a_id=" + id;
-	}else{
+	} else {
 		window.location.href = "/breeding?b_id=" + id;
 	}
 }
 
 function buykitty(id) {
-	console.log(id);
+	console.log('buy:' + id);
 	$("#buyModal").modal('hide');
 	$("#waitingModal").modal('show');
+	initweb3(function () {
+		buy(id, function () {
+			setTimeout(function () {
+				window.location.href = "/kitty?id=" + id;
+			}, 5000);
+		});
+	});
 }
 
 function salekitty(id) {
-	console.log(id);
-	$("#saleModal").modal('hide');
+	$.post("/sale",
+		{
+			id: id,
+			price: $("#salewant").val()
+		},
+		function (data, status) {
+			if (data) {
+				console.log('sale:' + id);
+				$("#saleModal").modal('hide');
+			} else {
+				$("#errModal").modal('show');
+			}
+		});
 }
 
 function unsalekitty(id) {
-	console.log(id);
-	$("#unsaleModal").modal('hide');
+	$.post("/unsale",
+		{
+			id: id,
+		},
+		function (data, status) {
+			if (data) {
+				console.log('unsale:' + id);
+				$("#unsaleModal").modal('hide');
+			} else {
+				$("#errModal").modal('show');
+			}
+		});
 }
 
-function breedingkitty(id) {
-	console.log(id);
-	$("#breedingModal").modal('hide');
+function salebreedingkitty(id) {
+	$.post("/salebreeding",
+		{
+			id: id,
+			price: $("#salebreedingwant").val()
+		},
+		function (data, status) {
+			if (data) {
+				console.log('salebreeding:' + id);
+				$("#salebreedingModal").modal('hide');
+			} else {
+				$("#errModal").modal('show');
+			}
+		});
 }
 
-function unbreedingkitty(id) {
-	console.log(id);
-	$("#unbreedingModal").modal('hide');
+function unsalebreedingkitty(id) {
+	$.post("/unsalebreeding",
+		{
+			id: id,
+		},
+		function (data, status) {
+			if (data) {
+				console.log('unsalebreeding:' + id);
+				$("#unsalebreedingModal").modal('hide');
+
+			} else {
+				$("#errModal").modal('show');
+			}
+		});
 }

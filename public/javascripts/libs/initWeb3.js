@@ -29,10 +29,20 @@ function initweb3(callback) {
 	setInterval(function () {
 		if (web3.eth.accounts[0] !== userAccount) {
 			userAccount = web3.eth.accounts[0];
-			console.log("acc:" + userAccount);
-			$('#address').html('我的地址：'+userAccount);
-
-			callback(callback);
+			if (!(!callback || typeof callback == 'undefined' || callback == undefined))
+				callback();
 		}
 	}, 100);
+}
+
+function buy(id, callback) {
+	console.log('buy:' + id);
+	console.log('acc:' + userAccount);
+	callback();
+}
+
+function breed(aid, bid, callback) {
+	console.log('aid:' + aid + 'bid:' + bid);
+	console.log('acc:' + userAccount);
+	callback();
 }
