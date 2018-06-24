@@ -31,14 +31,29 @@ function getlist(user, type) {
 			type: type
 		},
 		function (data, status) {
-				console.log(data);
+			console.log(data);
 			kittys = data;
 			if (kittys.length == 0) {
-				$('#list').html("<div class=\"row\"><div class=\"text-center\">" +
-				"<h2 class=\"h2 text-center\">喵呜，似乎您并没有喵咪</h2>" +
-				"<p class=\"text-center\">您可以去猫市购买。</p>" +
-				"<img class=\"img-rounded\" src=\"/images/main-network.png\" alt=\"私有链网络\">" +
-				"</div></div>");
+				if (user != null) {
+					if (type == 0) {
+						$('#list').html("<div class=\"row\"><div class=\"text-center\">" +
+							"<h2 class=\"h2 text-center\">喵呜，似乎您并没有喵咪</h2>" +
+							"<p class=\"text-center\">您可以去猫市购买。</p>" +
+							"<p class=\"text-center\">或者，您花费一些ETH，随机生产一只新的猫。</p>" +
+							"<img class=\"img-rounded\" src=\"/images/what.png\" alt=\"what\">" +
+							"</div></div>");
+					} else {
+						$('#list').html("<div class=\"row\"><div class=\"text-center\">" +
+							"<h2 class=\"h2 text-center\">喵呜，似乎您并没有这些喵咪</h2>" +
+							"<img class=\"img-rounded\" src=\"/images/what.png\" alt=\"what\">" +
+							"</div></div>");
+					}
+				}else{
+					$('#list').html("<div class=\"row\"><div class=\"text-center\">" +
+							"<h2 class=\"h2 text-center\">喵呜，似乎喵市并没有这些喵咪</h2>" +
+							"<img class=\"img-rounded\" src=\"/images/what.png\" alt=\"what\">" +
+							"</div></div>");
+				}
 			} else {
 				pagenum = Math.ceil(kittys.length / 12);
 				temp = location.hash.toString().slice(1);

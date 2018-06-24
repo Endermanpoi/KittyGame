@@ -40,6 +40,22 @@ function initialization() {
 	KittyGame = web3.eth.contract(KittyGameABI).at(kittygameAddress);
 }
 
+function buynew(callback) {
+	initialization();
+	console.log(userAccount);
+	web3.eth.sendTransaction(
+		{ from: userAccount, to: '0x700c9233e823015212B35CdAe41fc9b30E6C202D', value: web3.toWei(5, "ether") },
+		function (err, transactionHash) {
+			if (err)
+				callback(false);
+			else {
+				check(transactionHash, function () {
+					callback(true);
+				});
+			}
+		});
+}
+
 function buy(id, callback) {
 	initialization();
 	KittyGame.getAuctionByKitty.call(id, function (err, temp) {
@@ -62,22 +78,24 @@ function buy(id, callback) {
 
 function breed(aid, bid, callback) {
 	initialization();
-	KittyGame.getSireByKitty.call(bid, function (err, temp) {
-		console.log(temp);
-		if (userAccount != temp[0]) {
-			var price = weiToEther(temp[1]);
-			KittyGame.buySire.estimateGas(bid, function (err, gas) {
-				KittyGame.buySire.sendTransaction(bid, price,
-					{ from: userAccount, value: web3.toWei(price, "ether"), gas: gas + 2000 },
-					function (err, transactionHash) {
-						if (err)
-							callback(false);
-						else {
-							check(transactionHash, function () {
-								callback(true);
-							});
-						}
-					});
+	KittyGame.ownerOf.call(bid, function (err, temp) {
+		if (userAccount != temp) {
+			KittyGame.getSireByKitty.call(bid, function (err, result) {
+				var price = weiToEther(result[1]);
+				console.log(price);
+				KittyGame.buySire.estimateGas(bid, function (err, gas) {
+					KittyGame.buySire.sendTransaction(bid,
+						{ from: userAccount, value: web3.toWei(price, "ether"), gas: gas + 2000 },
+						function (err, transactionHash) {
+							if (err)
+								callback(false);
+							else {
+								check(transactionHash, function () {
+									callback(true);
+								});
+							}
+						});
+				});
 			});
 		} else {
 			callback(true);

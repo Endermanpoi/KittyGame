@@ -1,6 +1,6 @@
 var express = require('express');
 var build = require('../model/build');
-var eth=require('../model/EthBlockchain');
+var eth = require('../model/EthBlockchain');
 var router = express.Router();
 
 router.post('/showlist', function (req, res, next) {
@@ -22,10 +22,6 @@ router.post('/getlist', function (req, res, next) {
   var data = eth.gainKitty(acc, type);
   console.log(data);
   res.json(data);
-});
-
-router.post('/getkitty', function (req, res, next) {
-
 });
 
 router.post('/getbreedingprice', function (req, res, next) {
@@ -55,8 +51,9 @@ router.post('/breeding', function (req, res, next) {
 
 router.post('/newcat', function (req, res, next) {
   var acc = req.body.acc;
+  console.log(acc);
   build.newcat(acc, function (id) {
-    res.json(true);
+    res.json({ id: id });
   });
 });
 

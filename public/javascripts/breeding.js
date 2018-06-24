@@ -90,7 +90,7 @@ function myuncool() {
 function breeding() {
 	console.log(aid);
 	console.log(bid);
-	if (aid && bid) {
+	if ((typeof aid != undefined) && (typeof bid != undefined)) {
 		if (aid != bid) {
 			$("#pay").html(pay + '<small>ETH</small>');
 			$("#breedingModal").modal('show');

@@ -27,8 +27,9 @@ function breeding(aid, bid, acc, callback) {
 	Eth.newKitty(kitty, acc, function (err, id) {
 		console.log(id);
 		if (err) throw err;
-		image.findImage(id);
-		callback(id);
+		image.findImage(id, function () {
+			callback(id);
+		});
 	});
 }
 
@@ -43,8 +44,9 @@ function newcat(acc, callback) {
 	};
 	Eth.newKitty(kitty, acc, function (err, id) {
 		if (err) throw err;
-		image.findImage(id);
-		callback(id);
+		image.findImage(id, function () {
+			callback(id);
+		});
 	});
 }
 

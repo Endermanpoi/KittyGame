@@ -107,7 +107,7 @@ block content
             h5 一旦您确认，我们将提交交易
             h2.pull-right= saleprice
                 small   ETH
-            h5.text-muted 交易需要消耗GAS，大概为0.001ETH
+            h5.text-muted 执行交易需要消耗GAS，大概为0.001ETH
             h4 根据您的选择，您需要支付:
             br
             button.pull-left.btn.btn-default(type='button', data-dismiss='modal') 取消
@@ -120,6 +120,7 @@ block content
         .modal-content
           .modal-body
             h3.modal-title 您确认取消出售猫咪 ##{id}吗？
+            h5.text-muted 执行交易需要消耗GAS，大概为0.001ETH
             br
             button.pull-left.btn.btn-default(type='button', data-dismiss='modal') 取消
             button.pull-right.btn.btn-primary(type='button' onclick='unsalekitty(#{id})') 确认
@@ -136,6 +137,7 @@ block content
             .input-group
               input#salewant.form-control(type='text' placeholder='1.000')
               span.input-group-addon ETH
+            h5.text-muted 执行交易需要消耗GAS，大概为0.001ETH
             br
             button.pull-left.btn.btn-default(type='button', data-dismiss='modal') 取消
             button.pull-right.btn.btn-primary(type='button' onclick='salekitty(#{id})') 确认
@@ -153,6 +155,7 @@ block content
             .input-group
               input#salebreedingwant.form-control(type='text' placeholder='1.000')
               span.input-group-addon ETH
+            h5.text-muted 执行交易需要消耗GAS，大概为0.001ETH
             br
             button.pull-left.btn.btn-default(type='button', data-dismiss='modal') 取消
             button.pull-right.btn.btn-primary(type='button' onclick='salebreedingkitty(#{id})') 确认
@@ -165,6 +168,7 @@ block content
         .modal-content
           .modal-body
             h3.modal-title 您确认取消出售猫咪 ##{id}的繁育权吗？
+            h5.text-muted 执行交易需要消耗GAS，大概为0.001ETH
             br
             button.pull-left.btn.btn-default(type='button', data-dismiss='modal') 取消
             button.pull-right.btn.btn-primary(type='button' onclick='unsalebreedingkitty(#{id})') 确认

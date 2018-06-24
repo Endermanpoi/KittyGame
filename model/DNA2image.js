@@ -5,10 +5,10 @@ var async = require('async');
 var analysis = require('./DNAanalysis');
 var eth = require('./EthBlockchain')
 
-async function findImage(catID, callback) {
-	await fs.exists('./public/images/cat/' + catID + '.png', function (exists, temp) {
+function findImage(catID, callback) {
+	fs.exists('./public/images/cat/' + catID + '.png', function (exists, temp) {
 		if (exists)
-			callback('images/cat/' + catID + '.png');
+			callback(catID);
 		else {
 			build(catID, callback);
 		}
@@ -264,7 +264,7 @@ function build(catID, callback) {
 			callback();
 		}
 	}, function () {
-		callback('images/cat/' + catID + '.png');
+		callback(catID);
 	});
 }
 

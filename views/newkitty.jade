@@ -1,0 +1,47 @@
+extends layout
+  
+block content
+  script(src="javascripts/libs/initWeb3.js")
+  script(src="javascripts/libs/KGABI.js")
+  script(src="javascripts/newkitty.js")
+  #main.container
+    .row.clearfix
+      .col-md-12.column
+        .text-center
+          h2.txt-center 新的猫咪！
+          h4.text-muted 虽然这样可以快速获得喵咪，但花费高昂，而且结果非常不确定，您确定么？
+          .row.clearfix
+            .col-md-4
+            .col-md-4
+              a.btn.btn-default(data-toggle='modal', data-target='#buynowModal')
+                img.img-responsive(src='images/what.png')
+                h2 5
+                  small   ETH
+  //购买
+  #buynowModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='buynowModalLabel', aria-hidden='true')
+    .modal-dialog
+      .modal-content
+        .modal-body
+          h3.modal-title 您确认要购买随机猫咪吗？
+            h5 一旦您确认，我们将提交交易
+            h2.pull-right 5
+                small   ETH
+            h5.text-muted  该交易GAS由运营方承担
+            h4 根据您的选择，您需要支付:
+            br
+            button.pull-left.btn.btn-default(type='button', data-dismiss='modal') 取消
+            button.pull-right.btn.btn-primary(type='button' onclick='buynow()') 确认
+            br
+            br
+  //等待
+  #waitingModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='waitingModalLabel', aria-hidden='true')
+    .modal-dialog
+      .modal-content
+        .modal-body
+          h3.modal-title 交易处理中
+          h5 交易已提交，需要一段时间处理
+          h5 您可以等待交易结束，或者先去看看其他的，完成交易后系统自动处理
+          img#loading.img-responsive.center-block(src='images/loading.gif', alt='loading')
+          button.pull-right.btn.btn-default(type='button', data-dismiss='modal') 关闭
+          br
+          br
