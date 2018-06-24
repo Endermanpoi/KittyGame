@@ -105,10 +105,9 @@ block content
           .modal-body
             h3.modal-title 您确认要购买猫咪 ##{id}吗？
             h5 一旦您确认，我们将提交交易
-            h5.text-muted 交易需要消耗GAS，我们需要您支付0.005ETH的作为临时GAS；
-            h2.pull-right= saleprice+0.005
+            h2.pull-right= saleprice
                 small   ETH
-            h5.text-muted 交易完成后，消耗剩余的ETH将退回给您
+            h5.text-muted 交易需要消耗GAS，大概为0.001ETH
             h4 根据您的选择，您需要支付:
             br
             button.pull-left.btn.btn-default(type='button', data-dismiss='modal') 取消
@@ -179,7 +178,7 @@ block content
         .modal-body
           h3.modal-title 交易处理中
           h5 交易已提交，需要一段时间处理
-          h5 您可以等待交易结束，或者先去看看其他的，完成交易后喵咪自动加入您的猫咪
+          h5 您可以等待交易结束，或者先去看看其他的，完成交易后系统自动处理
           img#loading.img-responsive.center-block(src='images/loading.gif', alt='loading')
           button.pull-right.btn.btn-default(type='button', data-dismiss='modal') 关闭
           br

@@ -1,5 +1,6 @@
 var express = require('express');
 var fs = require('fs');
+var build = require('../model/build');
 var eth = require('../model/EthBlockchain');
 var router = express.Router();
 
@@ -11,6 +12,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/about', function (req, res, next) {
+  build.rebuildImage();
   res.render('about', { title: '关于' });
 });
 
@@ -31,6 +33,7 @@ router.get('/kitty', function (req, res, next) {
   var kitty = eth.getKitty(id);
   kitty.title = '喵咪 #' + id;
   console.log(id);
+  console.log(kitty);
   res.render('kitty', kitty);
 });
 

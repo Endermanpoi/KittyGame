@@ -1,5 +1,6 @@
 var express = require('express');
 var build = require('../model/build');
+var eth=require('../model/EthBlockchain');
 var router = express.Router();
 
 router.post('/showlist', function (req, res, next) {
@@ -17,7 +18,9 @@ router.post('/showlist', function (req, res, next) {
 router.post('/getlist', function (req, res, next) {
   var acc = req.body.Account;
   var type = req.body.type;
+  console.log(req.body);
   var data = eth.gainKitty(acc, type);
+  console.log(data);
   res.json(data);
 });
 
@@ -42,6 +45,7 @@ router.post('/breeding', function (req, res, next) {
   var aid = req.body.aid;
   var bid = req.body.bid;
   var acc = req.body.acc;
+  console.log(req.body);
   build.breeding(aid, bid, acc, function (id) {
     res.json({
       id: id

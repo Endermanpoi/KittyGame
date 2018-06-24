@@ -1,5 +1,6 @@
 var Web3 = require("web3");
 var fs = require('fs');
+var BigNumber = require('bignumber.js');
 var BN2Buf = require('./BN2Buf');
 
 var web3 = new Web3();
@@ -60,12 +61,12 @@ function getKitty(id) {
 		fid: parseInt(data[3].toString()),
 	};
 	if (sale) {
-		var temp = KittyGame.getAuctionByKitty.call(id)[1];
-		kitty.saleprice = parseFloat(temp);
+		var temp1 = KittyGame.getAuctionByKitty.call(id)[1];
+		kitty.saleprice = weiToEther(temp1);
 	}
 	if (salebreeding) {
-		var temp = KittyGame.getSireByKitty.call(id)[1];
-		kitty.saleprice = parseFloat(temp);
+		var temp2 = KittyGame.getSireByKitty.call(id)[1];
+		kitty.salebreedingprice = weiToEther(temp2);
 	}
 	return kitty;
 }
@@ -77,14 +78,44 @@ function getKitty(id) {
 function gainKitty(address, type) {
 	var data = new Array();   //返回的数组
 	var result = KittyGame.getKitties.call(); //获取所有的猫的数组
-	if (address === null || address === undefined || address === "") {  //没有地址，显示所有猫的数组
-		data = result;
-	} else { // 有地址 和用户有关
+	if (address === null || address === undefined || address === "") {
+
+		//没有地址，显示所有猫的数组
+		if (type === '0') {
+			data = result;
+		} else if (type === '1') {   //有地址  type == 1 显示所有出售的猫的数组
+			var counter = 0;
+			for (var i = 0; i < result.length; i++) {  //遍历所有猫
+				if (KittyGame.isSell.call(i)) {       //判断是否在出售
+					data[counter] = i;
+					counter++
+				}
+			}
+		} else if (type === '2') {  //type == 2 获得所有出售交配权的猫的数组
+			var counter = 0;
+			for (var i = 0; i < result.length; i++) {  //遍历所有猫
+				if (KittyGame.isSireSell.call(i)) {  //判断是否出售交配权
+					data[counter] = i;
+					counter++;
+				}
+			}
+		} else if (type === '3') {  //type === 3  显示所有已冷却的猫的数组
+			var counter = 0;
+			for (var i = 0; i < result.length; i++) { //遍历所有猫
+				if (KittyGame.isReady.call(i)) {  //判断是否冷却完毕
+					data[counter] = i;
+					counter++;
+				}
+			}
+		}
+	} else {
+
+
+		// 有地址 和用户有关
 		var _result = KittyGame.getKittiesByOwner.call(address);  //用户所有猫
 		if (type === '0') {
 			data = _result;
-		}
-		else if (type === '1') {   //有地址  type == 1 显示所有出售的猫的数组
+		} else if (type === '1') {   //有地址  type == 1 显示所有出售的猫的数组
 			var counter = 0;
 			for (var i = 0; i < _result.length; i++) {  //遍历所有猫
 				if (KittyGame.isSell.call(i)) {       //判断是否在出售
@@ -110,8 +141,10 @@ function gainKitty(address, type) {
 			}
 		}
 	}
+	console.log(data);
 	return data;   //返回数组
 }
+
 
 function getListDeatil(idlist) {
 	var temp = idlist.length;
@@ -128,7 +161,17 @@ function getListDeatil(idlist) {
 	return data;
 }
 
-exports.getDNA=getDNA;
+function weiToEther(number) {
+	var value = web3.fromWei(number, "ether");
+	return value;
+}
+
+function etherToWei(number) {
+	var value = web3.toWei(number, "ether");
+	return value;
+}
+
+exports.getDNA = getDNA;
 exports.newKitty = newKitty;
 exports.getKitty = getKitty;
 exports.gainKitty = gainKitty;

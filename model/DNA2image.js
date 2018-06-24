@@ -1,4 +1,5 @@
 var im = require('imagemagick');
+var BigNumber = require('bignumber.js');
 var fs = require('fs');
 var async = require('async');
 var analysis = require('./DNAanalysis');

@@ -42,29 +42,10 @@ function initialization() {
 
 function buy(id, callback) {
 	initialization();
-	var price = weiToEther(KittyGame.getAuctionByKitty.call(id)[1]);
-	KittyGame.buyKitty.estimateGas(id, function (err, gas) {
-		KittyGame.buyKitty.sendTransaction(id,
-			{ from: userAccount, value: web3.toWei(price, "ether"), gas: gas + 2000 },
-			function (err, transactionHash) {
-				if (err)
-					callback(false);
-				else {
-					check(transactionHash, function () {
-						callback(true);
-					});
-				}
-			});
-	});
-}
-
-function breed(aid, bid, callback) {
-	initialization();
-	var temp = KittyGame.getSireByKitty.call(bid);
-	if (userAccount != temp[0]) {
+	KittyGame.getAuctionByKitty.call(id, function (err, temp) {
 		var price = weiToEther(temp[1]);
-		KittyGame.buySire.estimateGas(bid, function (err, gas) {
-			KittyGame.buySire.sendTransaction(bid, price,
+		KittyGame.buyKitty.estimateGas(id, function (err, gas) {
+			KittyGame.buyKitty.sendTransaction(id,
 				{ from: userAccount, value: web3.toWei(price, "ether"), gas: gas + 2000 },
 				function (err, transactionHash) {
 					if (err)
@@ -76,14 +57,39 @@ function breed(aid, bid, callback) {
 					}
 				});
 		});
-	} else {
-		callback(true);
-	}
+	});
+}
+
+function breed(aid, bid, callback) {
+	initialization();
+	KittyGame.getSireByKitty.call(bid, function (err, temp) {
+		console.log(temp);
+		if (userAccount != temp[0]) {
+			var price = weiToEther(temp[1]);
+			KittyGame.buySire.estimateGas(bid, function (err, gas) {
+				KittyGame.buySire.sendTransaction(bid, price,
+					{ from: userAccount, value: web3.toWei(price, "ether"), gas: gas + 2000 },
+					function (err, transactionHash) {
+						if (err)
+							callback(false);
+						else {
+							check(transactionHash, function () {
+								callback(true);
+							});
+						}
+					});
+			});
+		} else {
+			callback(true);
+		}
+	});
 }
 
 function createAuction(id, price, callback) {
 	initialization();
-	price = weiToEther(price);
+	console.log(price);
+	price = etherToWei(price);
+	console.log(price);
 	KittyGame.createAuction.estimateGas(id, price, function (err, gas) {
 		KittyGame.createAuction.sendTransaction(id, price,
 			{ from: userAccount, gas: gas + 2000 },
@@ -118,7 +124,7 @@ function cancelAuction(id, callback) {
 
 function creatSireSell(id, price, callback) {
 	initialization();
-	price = weiToEther(price);
+	price = etherToWei(price);
 	KittyGame.creatSireSell.estimateGas(id, price, function (err, gas) {
 		KittyGame.creatSireSell.sendTransaction(id, price,
 			{ from: userAccount, gas: gas + 2000 },

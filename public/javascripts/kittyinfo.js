@@ -43,11 +43,11 @@ function buykitty(id) {
 }
 
 function salekitty(id) {
+	console.log('sale:' + id);
+	$("#saleModal").modal('hide');
+	$("#waitingModal").modal('show');
 	createAuction(id, $("#salewant").val(), function (done) {
 		if (done) {
-			console.log('sale:' + id);
-			$("#saleModal").modal('hide');
-			$("#waitingModal").modal('show');
 			window.location.reload();
 		} else {
 			$("#errModal").modal('show');
@@ -56,10 +56,11 @@ function salekitty(id) {
 }
 
 function unsalekitty(id) {
+	console.log('unsale:' + id);
+	$("#unsaleModal").modal('hide');
+	$("#waitingModal").modal('show');
 	cancelAuction(id, function (done) {
 		if (done) {
-			console.log('unsale:' + id);
-			$("#unsaleModal").modal('hide');
 			window.location.reload();
 		} else {
 			$("#errModal").modal('show');
@@ -68,10 +69,11 @@ function unsalekitty(id) {
 }
 
 function salebreedingkitty(id) {
+	console.log('salebreeding:' + id);
+	$("#salebreedingModal").modal('hide');
+	$("#waitingModal").modal('show');
 	creatSireSell(id, $("#salebreedingwant").val(), function (done) {
 		if (done) {
-			console.log('salebreeding:' + id);
-			$("#salebreedingModal").modal('hide');
 			window.location.reload();
 		} else {
 			$("#errModal").modal('show');
@@ -80,10 +82,11 @@ function salebreedingkitty(id) {
 }
 
 function unsalebreedingkitty(id) {
+	console.log('unsalebreeding:' + id);
+	$("#unsalebreedingModal").modal('hide');
+	$("#waitingModal").modal('show');
 	cancelSireSell(id, function (done) {
 		if (done) {
-			console.log('unsalebreeding:' + id);
-			$("#unsalebreedingModal").modal('hide');
 			window.location.reload();
 		} else {
 			$("#errModal").modal('show');

@@ -334,6 +334,20 @@ var KittyGameABI=[
 	},
 	{
 		"constant": true,
+		"inputs": [],
+		"name": "getKitties",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
 		"inputs": [
 			{
 				"name": "_owner",
@@ -362,7 +376,7 @@ var KittyGameABI=[
 		"name": "getKitty",
 		"outputs": [
 			{
-				"name": "isReady",
+				"name": "Ready",
 				"type": "bool"
 			},
 			{
@@ -407,6 +421,25 @@ var KittyGameABI=[
 			{
 				"name": "price",
 				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "isReady",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
 			}
 		],
 		"payable": false,
